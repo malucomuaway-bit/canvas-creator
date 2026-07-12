@@ -1,6 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
-import { requireUnlocked } from "./gate.functions";
+import { requireUnlocked } from "./gate.server";
 
 export type ShoppingItem = {
   id: string;
@@ -36,7 +36,7 @@ export const listShopping = createServerFn({ method: "GET" }).handler(async () =
 });
 
 export const addShoppingItem = createServerFn({ method: "POST" })
-  .inputValidator((data) =>
+  .validator((data) =>
     z
       .object({
         name: z.string().trim().min(1).max(100),
@@ -62,7 +62,7 @@ export const addShoppingItem = createServerFn({ method: "POST" })
   });
 
 export const updateShoppingItem = createServerFn({ method: "POST" })
-  .inputValidator((data) =>
+  .validator((data) =>
     z
       .object({
         id: z.string().uuid(),
@@ -84,7 +84,7 @@ export const updateShoppingItem = createServerFn({ method: "POST" })
   });
 
 export const deleteShoppingItem = createServerFn({ method: "POST" })
-  .inputValidator((data) => z.object({ id: z.string().uuid() }).parse(data))
+  .validator((data) => z.object({ id: z.string().uuid() }).parse(data))
   .handler(async ({ data }) => {
     await requireUnlocked();
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
@@ -102,7 +102,7 @@ export const clearChecked = createServerFn({ method: "POST" }).handler(async () 
 });
 
 export const setBudget = createServerFn({ method: "POST" })
-  .inputValidator((data) => z.object({ monthly: z.number().nonnegative() }).parse(data))
+  .validator((data) => z.object({ monthly: z.number().nonnegative() }).parse(data))
   .handler(async ({ data }) => {
     await requireUnlocked();
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
