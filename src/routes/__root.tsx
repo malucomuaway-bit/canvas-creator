@@ -87,6 +87,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:description", content: "Gestão de compras, estoque, refeições e orçamento da casa." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Casa Organizada" },
+      { name: "twitter:description", content: "Gestão de compras, estoque, refeições e orçamento da casa." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/ecd2e7f0-9f6b-4c91-8688-2a7258e3ff0d/id-preview-8804556b--a14f7f81-872e-4d2b-94c1-6c354b5a6215.lovable.app-1783819007850.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/ecd2e7f0-9f6b-4c91-8688-2a7258e3ff0d/id-preview-8804556b--a14f7f81-872e-4d2b-94c1-6c354b5a6215.lovable.app-1783819007850.png" },
     ],
     links: [
       {
