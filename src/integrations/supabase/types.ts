@@ -14,66 +14,7 @@ export type Database = {
   }
   public: {
     Tables: {
-      settings: {
-        Row: {
-          key: string
-          updated_at: string
-          value: Json
-        }
-        Insert: {
-          key: string
-          updated_at?: string
-          value: Json
-        }
-        Update: {
-          key?: string
-          updated_at?: string
-          value?: Json
-        }
-        Relationships: []
-      }
-      shopping_items: {
-        Row: {
-          category: string | null
-          checked: boolean
-          created_at: string
-          estimated_price: number | null
-          id: string
-          name: string
-          paid_price: number | null
-          position: number
-          quantity: number
-          unit: string | null
-          updated_at: string
-        }
-        Insert: {
-          category?: string | null
-          checked?: boolean
-          created_at?: string
-          estimated_price?: number | null
-          id?: string
-          name: string
-          paid_price?: number | null
-          position?: number
-          quantity?: number
-          unit?: string | null
-          updated_at?: string
-        }
-        Update: {
-          category?: string | null
-          checked?: boolean
-          created_at?: string
-          estimated_price?: number | null
-          id?: string
-          name?: string
-          paid_price?: number | null
-          position?: number
-          quantity?: number
-          unit?: string | null
-          updated_at?: string
-        }
-        Relationships: []
-      }
+      [_ in never]: never
     }
     Views: {
       [_ in never]: never
