@@ -2,6 +2,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireUnlocked } from "./gate.server";
 
+export type Recurrence = "none" | "weekly" | "monthly";
 export type ShoppingItem = {
   id: string;
   name: string;
@@ -13,22 +14,25 @@ export type ShoppingItem = {
   category: string | null;
   position: number;
   market_id: string | null;
-  recurrence: "none" | "weekly" | "monthly";
+  recurrence: Recurrence;
   last_bought_at: string | null;
 };
 
 export const listShopping = createServerFn({ method: "GET" }).handler(async () => {
   await requireUnlocked();
   const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-  const s = supabaseAdmin as any;
-  const { data, error } = await s
+  const { data, error } = await (supabaseAdmin as any)
     .from("shopping_items")
     .select("*")
     .order("checked", { ascending: true })
     .order("position", { ascending: true })
     .order("created_at", { ascending: true });
   if (error) throw error;
-  const budget = await s.from("settings").select("value").eq("key", "budget").maybeSingle();
+  const budget = await (supabaseAdmin as any)
+    .from("settings")
+    .select("value")
+    .eq("key", "budget")
+    .maybeSingle();
   return {
     items: (data ?? []) as ShoppingItem[],
     budget: ((budget.data?.value as { monthly?: number } | null)?.monthly ?? 0) as number,
@@ -45,7 +49,7 @@ export const addShoppingItem = createServerFn({ method: "POST" })
         estimated_price: z.number().nonnegative().nullable().optional(),
         category: z.string().max(50).nullable().optional(),
         market_id: z.string().uuid().nullable().optional(),
-        recurrence: z.enum(["none", "weekly", "monthly"]).optional(),
+        recurrence: z.enum(["none", "weekly", "monthly"]).default("none"),
       })
       .parse(data),
   )
@@ -59,7 +63,7 @@ export const addShoppingItem = createServerFn({ method: "POST" })
       estimated_price: data.estimated_price ?? null,
       category: data.category ?? null,
       market_id: data.market_id ?? null,
-      recurrence: data.recurrence ?? "none",
+      recurrence: data.recurrence,
     });
     if (error) throw error;
     return { ok: true as const };
@@ -75,8 +79,8 @@ export const updateShoppingItem = createServerFn({ method: "POST" })
         estimated_price: z.number().nonnegative().nullable().optional(),
         quantity: z.number().positive().optional(),
         name: z.string().trim().min(1).max(100).optional(),
-        market_id: z.string().uuid().nullable().optional(),
         recurrence: z.enum(["none", "weekly", "monthly"]).optional(),
+        market_id: z.string().uuid().nullable().optional(),
       })
       .parse(data),
   )
