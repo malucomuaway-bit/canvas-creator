@@ -12,7 +12,9 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as UnlockRouteImport } from './routes/unlock'
 import { Route as AppRouteImport } from './routes/_app'
 import { Route as AppIndexRouteImport } from './routes/_app.index'
+import { Route as AppHistoricoRouteImport } from './routes/_app.historico'
 import { Route as AppFeiraRouteImport } from './routes/_app.feira'
+import { Route as AppEstoqueRouteImport } from './routes/_app.estoque'
 import { Route as AppComprasRouteImport } from './routes/_app.compras'
 
 const UnlockRoute = UnlockRouteImport.update({
@@ -29,9 +31,19 @@ const AppIndexRoute = AppIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AppRoute,
 } as any)
+const AppHistoricoRoute = AppHistoricoRouteImport.update({
+  id: '/historico',
+  path: '/historico',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppFeiraRoute = AppFeiraRouteImport.update({
   id: '/feira',
   path: '/feira',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppEstoqueRoute = AppEstoqueRouteImport.update({
+  id: '/estoque',
+  path: '/estoque',
   getParentRoute: () => AppRoute,
 } as any)
 const AppComprasRoute = AppComprasRouteImport.update({
@@ -44,12 +56,16 @@ export interface FileRoutesByFullPath {
   '/': typeof AppIndexRoute
   '/unlock': typeof UnlockRoute
   '/compras': typeof AppComprasRoute
+  '/estoque': typeof AppEstoqueRoute
   '/feira': typeof AppFeiraRoute
+  '/historico': typeof AppHistoricoRoute
 }
 export interface FileRoutesByTo {
   '/unlock': typeof UnlockRoute
   '/compras': typeof AppComprasRoute
+  '/estoque': typeof AppEstoqueRoute
   '/feira': typeof AppFeiraRoute
+  '/historico': typeof AppHistoricoRoute
   '/': typeof AppIndexRoute
 }
 export interface FileRoutesById {
@@ -57,20 +73,24 @@ export interface FileRoutesById {
   '/_app': typeof AppRouteWithChildren
   '/unlock': typeof UnlockRoute
   '/_app/compras': typeof AppComprasRoute
+  '/_app/estoque': typeof AppEstoqueRoute
   '/_app/feira': typeof AppFeiraRoute
+  '/_app/historico': typeof AppHistoricoRoute
   '/_app/': typeof AppIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/unlock' | '/compras' | '/feira'
+  fullPaths: '/' | '/unlock' | '/compras' | '/estoque' | '/feira' | '/historico'
   fileRoutesByTo: FileRoutesByTo
-  to: '/unlock' | '/compras' | '/feira' | '/'
+  to: '/unlock' | '/compras' | '/estoque' | '/feira' | '/historico' | '/'
   id:
     | '__root__'
     | '/_app'
     | '/unlock'
     | '/_app/compras'
+    | '/_app/estoque'
     | '/_app/feira'
+    | '/_app/historico'
     | '/_app/'
   fileRoutesById: FileRoutesById
 }
@@ -102,11 +122,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppIndexRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/historico': {
+      id: '/_app/historico'
+      path: '/historico'
+      fullPath: '/historico'
+      preLoaderRoute: typeof AppHistoricoRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/feira': {
       id: '/_app/feira'
       path: '/feira'
       fullPath: '/feira'
       preLoaderRoute: typeof AppFeiraRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/estoque': {
+      id: '/_app/estoque'
+      path: '/estoque'
+      fullPath: '/estoque'
+      preLoaderRoute: typeof AppEstoqueRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/compras': {
@@ -121,13 +155,17 @@ declare module '@tanstack/react-router' {
 
 interface AppRouteChildren {
   AppComprasRoute: typeof AppComprasRoute
+  AppEstoqueRoute: typeof AppEstoqueRoute
   AppFeiraRoute: typeof AppFeiraRoute
+  AppHistoricoRoute: typeof AppHistoricoRoute
   AppIndexRoute: typeof AppIndexRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
   AppComprasRoute: AppComprasRoute,
+  AppEstoqueRoute: AppEstoqueRoute,
   AppFeiraRoute: AppFeiraRoute,
+  AppHistoricoRoute: AppHistoricoRoute,
   AppIndexRoute: AppIndexRoute,
 }
 
