@@ -14,6 +14,62 @@ export type Database = {
   }
   public: {
     Tables: {
+      markets: {
+        Row: {
+          color: string
+          created_at: string
+          id: string
+          name: string
+        }
+        Insert: {
+          color?: string
+          created_at?: string
+          id?: string
+          name: string
+        }
+        Update: {
+          color?: string
+          created_at?: string
+          id?: string
+          name?: string
+        }
+        Relationships: []
+      }
+      purchase_history: {
+        Row: {
+          id: string
+          items: Json
+          market_id: string | null
+          market_name: string | null
+          purchased_at: string
+          total: number
+        }
+        Insert: {
+          id?: string
+          items?: Json
+          market_id?: string | null
+          market_name?: string | null
+          purchased_at?: string
+          total?: number
+        }
+        Update: {
+          id?: string
+          items?: Json
+          market_id?: string | null
+          market_name?: string | null
+          purchased_at?: string
+          total?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "purchase_history_market_id_fkey"
+            columns: ["market_id"]
+            isOneToOne: false
+            referencedRelation: "markets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       settings: {
         Row: {
           key: string
@@ -39,10 +95,13 @@ export type Database = {
           created_at: string
           estimated_price: number | null
           id: string
+          last_bought_at: string | null
+          market_id: string | null
           name: string
           paid_price: number | null
           position: number
           quantity: number
+          recurrence: string
           unit: string | null
           updated_at: string
         }
@@ -52,10 +111,13 @@ export type Database = {
           created_at?: string
           estimated_price?: number | null
           id?: string
+          last_bought_at?: string | null
+          market_id?: string | null
           name: string
           paid_price?: number | null
           position?: number
           quantity?: number
+          recurrence?: string
           unit?: string | null
           updated_at?: string
         }
@@ -65,9 +127,56 @@ export type Database = {
           created_at?: string
           estimated_price?: number | null
           id?: string
+          last_bought_at?: string | null
+          market_id?: string | null
           name?: string
           paid_price?: number | null
           position?: number
+          quantity?: number
+          recurrence?: string
+          unit?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "shopping_items_market_id_fkey"
+            columns: ["market_id"]
+            isOneToOne: false
+            referencedRelation: "markets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      stock_items: {
+        Row: {
+          category: string | null
+          created_at: string
+          expires_at: string | null
+          id: string
+          min_quantity: number
+          name: string
+          quantity: number
+          unit: string | null
+          updated_at: string
+        }
+        Insert: {
+          category?: string | null
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          min_quantity?: number
+          name: string
+          quantity?: number
+          unit?: string | null
+          updated_at?: string
+        }
+        Update: {
+          category?: string | null
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          min_quantity?: number
+          name?: string
           quantity?: number
           unit?: string | null
           updated_at?: string
