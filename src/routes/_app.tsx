@@ -1,7 +1,8 @@
 import { createFileRoute, Link, Outlet, redirect, useRouter } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
-import { Home, ShoppingCart, ShoppingBasket, Package, History, Lock } from "lucide-react";
+import { Home, ShoppingCart, ShoppingBasket, Package, History, Lock, UtensilsCrossed } from "lucide-react";
 import { Toaster } from "@/components/ui/sonner";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import { checkUnlocked, lockSite } from "@/lib/gate.functions";
 
 export const Route = createFileRoute("/_app")({
@@ -23,6 +24,17 @@ function AppLayout() {
 
   return (
     <div className="min-h-dvh bg-background pb-24">
+      <div className="fixed right-3 top-3 z-30 flex items-center gap-2">
+        <ThemeToggle />
+        <button
+          type="button"
+          onClick={handleLock}
+          aria-label="Bloquear site"
+          className="flex h-9 w-9 items-center justify-center rounded-full border bg-card text-muted-foreground transition-colors hover:text-foreground"
+        >
+          <Lock className="h-4 w-4" />
+        </button>
+      </div>
       <main>
         <Outlet />
       </main>
@@ -36,16 +48,8 @@ function AppLayout() {
           <NavItem to="/compras" icon={<ShoppingCart className="h-5 w-5" />} label="Lista" />
           <NavItem to="/feira" icon={<ShoppingBasket className="h-5 w-5" />} label="Feira" />
           <NavItem to="/estoque" icon={<Package className="h-5 w-5" />} label="Estoque" />
+          <NavItem to="/refeicoes" icon={<UtensilsCrossed className="h-5 w-5" />} label="Refeições" />
           <NavItem to="/historico" icon={<History className="h-5 w-5" />} label="Hist." />
-          <button
-            type="button"
-            onClick={handleLock}
-            aria-label="Bloquear site"
-            className="flex min-h-11 flex-col items-center justify-center gap-1 rounded-lg px-1 py-1 text-[10px] font-medium text-muted-foreground transition-colors hover:text-foreground"
-          >
-            <Lock className="h-5 w-5" />
-            <span>Bloquear</span>
-          </button>
         </div>
       </nav>
     </div>

@@ -99,24 +99,27 @@ function MarketMode() {
         </p>
       </div>
 
-      {markets.length > 0 && (
-        <div>
+      <div>
+        <div className="flex items-center justify-between">
           <label className="text-xs text-muted-foreground" htmlFor="market">
             Mercado
           </label>
-          <select
-            id="market"
-            value={marketId}
-            onChange={(e) => setMarketId(e.target.value)}
-            className="mt-1 w-full rounded-md border bg-background px-3 py-2"
-          >
-            <option value="">Não informado</option>
-            {markets.map((m) => (
-              <option key={m.id} value={m.id}>{m.name}</option>
-            ))}
-          </select>
+          <a href="/mercados" className="text-xs text-primary hover:underline">
+            Gerenciar
+          </a>
         </div>
-      )}
+        <select
+          id="market"
+          value={marketId}
+          onChange={(e) => setMarketId(e.target.value)}
+          className="mt-1 w-full rounded-md border bg-background px-3 py-2"
+        >
+          <option value="">Não informado</option>
+          {markets.map((m) => (
+            <option key={m.id} value={m.id}>{m.name}</option>
+          ))}
+        </select>
+      </div>
 
       <ul className="space-y-3">
         {pending.map((item) => (
