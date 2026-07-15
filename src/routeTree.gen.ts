@@ -12,6 +12,8 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as UnlockRouteImport } from './routes/unlock'
 import { Route as AppRouteImport } from './routes/_app'
 import { Route as AppIndexRouteImport } from './routes/_app.index'
+import { Route as AppRefeicoesRouteImport } from './routes/_app.refeicoes'
+import { Route as AppMercadosRouteImport } from './routes/_app.mercados'
 import { Route as AppHistoricoRouteImport } from './routes/_app.historico'
 import { Route as AppFeiraRouteImport } from './routes/_app.feira'
 import { Route as AppEstoqueRouteImport } from './routes/_app.estoque'
@@ -29,6 +31,16 @@ const AppRoute = AppRouteImport.update({
 const AppIndexRoute = AppIndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppRefeicoesRoute = AppRefeicoesRouteImport.update({
+  id: '/refeicoes',
+  path: '/refeicoes',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppMercadosRoute = AppMercadosRouteImport.update({
+  id: '/mercados',
+  path: '/mercados',
   getParentRoute: () => AppRoute,
 } as any)
 const AppHistoricoRoute = AppHistoricoRouteImport.update({
@@ -59,6 +71,8 @@ export interface FileRoutesByFullPath {
   '/estoque': typeof AppEstoqueRoute
   '/feira': typeof AppFeiraRoute
   '/historico': typeof AppHistoricoRoute
+  '/mercados': typeof AppMercadosRoute
+  '/refeicoes': typeof AppRefeicoesRoute
 }
 export interface FileRoutesByTo {
   '/unlock': typeof UnlockRoute
@@ -66,6 +80,8 @@ export interface FileRoutesByTo {
   '/estoque': typeof AppEstoqueRoute
   '/feira': typeof AppFeiraRoute
   '/historico': typeof AppHistoricoRoute
+  '/mercados': typeof AppMercadosRoute
+  '/refeicoes': typeof AppRefeicoesRoute
   '/': typeof AppIndexRoute
 }
 export interface FileRoutesById {
@@ -76,13 +92,31 @@ export interface FileRoutesById {
   '/_app/estoque': typeof AppEstoqueRoute
   '/_app/feira': typeof AppFeiraRoute
   '/_app/historico': typeof AppHistoricoRoute
+  '/_app/mercados': typeof AppMercadosRoute
+  '/_app/refeicoes': typeof AppRefeicoesRoute
   '/_app/': typeof AppIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/unlock' | '/compras' | '/estoque' | '/feira' | '/historico'
+  fullPaths:
+    | '/'
+    | '/unlock'
+    | '/compras'
+    | '/estoque'
+    | '/feira'
+    | '/historico'
+    | '/mercados'
+    | '/refeicoes'
   fileRoutesByTo: FileRoutesByTo
-  to: '/unlock' | '/compras' | '/estoque' | '/feira' | '/historico' | '/'
+  to:
+    | '/unlock'
+    | '/compras'
+    | '/estoque'
+    | '/feira'
+    | '/historico'
+    | '/mercados'
+    | '/refeicoes'
+    | '/'
   id:
     | '__root__'
     | '/_app'
@@ -91,6 +125,8 @@ export interface FileRouteTypes {
     | '/_app/estoque'
     | '/_app/feira'
     | '/_app/historico'
+    | '/_app/mercados'
+    | '/_app/refeicoes'
     | '/_app/'
   fileRoutesById: FileRoutesById
 }
@@ -120,6 +156,20 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof AppIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/refeicoes': {
+      id: '/_app/refeicoes'
+      path: '/refeicoes'
+      fullPath: '/refeicoes'
+      preLoaderRoute: typeof AppRefeicoesRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/mercados': {
+      id: '/_app/mercados'
+      path: '/mercados'
+      fullPath: '/mercados'
+      preLoaderRoute: typeof AppMercadosRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/historico': {
@@ -158,6 +208,8 @@ interface AppRouteChildren {
   AppEstoqueRoute: typeof AppEstoqueRoute
   AppFeiraRoute: typeof AppFeiraRoute
   AppHistoricoRoute: typeof AppHistoricoRoute
+  AppMercadosRoute: typeof AppMercadosRoute
+  AppRefeicoesRoute: typeof AppRefeicoesRoute
   AppIndexRoute: typeof AppIndexRoute
 }
 
@@ -166,6 +218,8 @@ const AppRouteChildren: AppRouteChildren = {
   AppEstoqueRoute: AppEstoqueRoute,
   AppFeiraRoute: AppFeiraRoute,
   AppHistoricoRoute: AppHistoricoRoute,
+  AppMercadosRoute: AppMercadosRoute,
+  AppRefeicoesRoute: AppRefeicoesRoute,
   AppIndexRoute: AppIndexRoute,
 }
 
